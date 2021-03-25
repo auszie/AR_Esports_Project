@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <script src="/js/https.js"></script>
+    <title>A-Frame AR Module</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://rawgit.com/Utopiah/googlepoly-load-component/master/googlepoly-load-component.js"></script>
+    <style>
+        .a-enter-vr-button {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <a-scene background="color: black">
+        <a-assets>
+            <a-asset-item id="tl_logo"
+                src="models/tl_2.glb"
+                crossorigins></a-asset-item>
+            <a-asset-item id="tsm_logo"
+                src="models/tms.glb"
+                crossorigins></a-asset-item>
+            <a-asset-item id="c9_logo"
+                src="models/c9.glb" crossorigins>
+            </a-asset-item>
+        </a-assets>
+
+        <a-entity gltf-model="#tl_logo" position="0 .5 -1" scale="4 4 4" rotation="0 0 0"></a-entity>
+        <a-entity gltf-model="#tsm_logo" position="1 .5 -1" scale="4 4 4"></a-entity>
+        <a-entity gltf-model="#c9_logo" position="-1 .5 -1" scale="4 4 4" rotation="0 -15 0"></a-entity>
+
+
+        <a-entity camera position="0 1 0" wasd-controls look-controls></a-entity>
+
+    </a-scene>
+</body>
+
+</html>
