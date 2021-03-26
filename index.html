@@ -5,6 +5,7 @@
     <title>A-Frame AR Module</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <style>
         .a-enter-vr-button {
             display: none;
@@ -13,6 +14,11 @@
 </head>
 
 <body>
+    <div id="#box">
+        <button>
+            HIDE OBJECTS
+        </button>
+    </div>
     <a-scene background="color: black">
         <a-assets>
             <a-asset-item id="tl_logo"
@@ -25,15 +31,54 @@
                 src="models/c9.glb" crossorigins>
             </a-asset-item>
         </a-assets>
-        <a-box position="0 .5 -1" scale=".2 .2 .05" material="color: blue; opacity: 0.9"></a-box>
+
+        <a-entity id="player" collider-check>
+            <a-entity raycaster="objects: .collidable" position="0 -0.9 0" rotation="90 0 0"></a-entity>
+        </a-entity>
+
+        <a-entity class="collidable" geometry="primitive: box" position="0 .1 -.5" scale=".3 .3 .05" material="color: blue; opacity: 0.9"></a-entity>
         <!-- <a-entity gltf-model="#tsm_logo" position="0 .5 -1" scale="4 4 4" rotation="0 0 0"></a-entity> -->
         <!-- <a-entity gltf-model="#tsm_logo" position="1 .5 -1" scale="4 4 4"></a-entity>
         <a-entity gltf-model="#c9_logo" position="-1 .5 -1" scale="4 4 4" rotation="0 -15 0"></a-entity> -->
-
+        
+        <a-entity raycaster="objects: .clickable" cursor></a-entity>    
+        <a-entity class="clickable" geometry="primitive: box" position="1 0 0"></a-entity>
 
         <a-entity camera position="0 1 0" wasd-controls look-controls></a-entity>
 
     </a-scene>
+    <script>
+        AFRAME.registerComponent('collider-check', {
+                dependencies: ['raycaster'],
+
+                init: function () {
+                    this.el.addEventListener('raycaster-intersection', function () {
+                        console.log('Player hit something!');
+                    });
+                }
+            });
+
+            AFRAME.registerComponent('raycaster-listen', {
+                    init: function () {
+                        // Use events to figure out what raycaster is listening so we don't have to
+                        // hardcode the raycaster.
+                        this.el.addEventListener('raycaster-intersected', evt => {
+                            this.raycaster = evt.detail.el;
+                        });
+                        this.el.addEventListener('raycaster-intersected-cleared', evt => {
+                            this.raycaster = null;
+                        });
+                    },
+
+                    tick: function () {
+                        if (!this.raycaster) { return; }  // Not intersecting.
+
+                        let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+                        if (!intersection) { return; }
+                        console.log(intersection.point);
+                    }
+                });
+    </script>
 </body>
 
 </html>
