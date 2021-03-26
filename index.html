@@ -14,11 +14,8 @@
 </head>
 
 <body>
-    <div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
-        <button>
-            HIDE OBJECTS
-        </button>
-    </div>
+    
+   
     <a-scene background="color: black">
         <a-assets>
             <a-asset-item id="tl_logo"
@@ -32,6 +29,12 @@
             </a-asset-item>
         </a-assets>
 
+        <div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
+            <button>
+                HIDE OBJECTS
+            </button>
+        </div>
+        
         <a-entity id="player" collider-check>
             <a-entity raycaster="objects: .collidable" position="0 -0.9 0" rotation="90 0 0"></a-entity>
         </a-entity>
